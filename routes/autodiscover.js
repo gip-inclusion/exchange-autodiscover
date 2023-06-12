@@ -1,6 +1,7 @@
 const express = require("express");
 const xml2js = require("xml2js");
 const router = express.Router();
+const isExchangeUser = require('../lib/isExchangeUser.js');
 
 /* GET home page. */
 router.post("/autodiscover.xml", async function (req, res, next) {
@@ -24,6 +25,10 @@ router.post("/autodiscover.xml", async function (req, res, next) {
   } = await xml2js.parseStringPromise(req.body.toString("utf-8"));
 
   const [username, domain] = email.split("@");
+
+  if (!isExchangeUser(username)) {
+    res.sendStatus(404);
+  }
 
   res.set("content-type", "application/xml");
   res.render("autodiscover", {

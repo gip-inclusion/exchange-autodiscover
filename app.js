@@ -16,6 +16,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.raw({ type: '*/*' }));
 
 app.use('/autodiscover', require('./routes/autodiscover'));
+app.use('/mail', require('./routes/autoconfig'));
 
 app.locals.layout = null;
 
